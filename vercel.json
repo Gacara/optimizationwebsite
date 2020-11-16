@@ -1,36 +1,47 @@
 {
-    "rewrites": [
-      {
-        "source": "/",
-        "destination": "/api/frameworks"
-      },
-      {
-        "source": "/api/v1/frameworks",
-        "destination": "/api/frameworks"
-      }
-    ],
-    "github": {
-      "silent": true,
-      "autoJobCancelation": true
-    },
     "headers": [
-      {
-        "source": "/api(/v[0-9]+)?/frameworks",
-        "headers": [
-          {
-            "key": "cache-control",
-            "value": "public, max-age=60, s-maxage=500, stale-while-revalidate=500, stale-if-error=500"
-          }
+            {
+                "source": "/(.*)",
+                "headers": [
+                    {
+                        "key": "X-Content-Type-Options",
+                        "value": "nosniff"
+                    },
+                    {
+                        "key": "X-Frame-Options",
+                        "value": "DENY"
+                    },
+                    {
+                        "key": "X-XSS-Protection",
+                        "value": "1; mode=block"
+                    },
+                    {
+                        "key": "Accept-Encoding",
+                        "value": "br;q=1.0, gzip;q=0.8, *;q=0.1"
+                    },
+                    {
+                        "key": "Cache-Control",
+                        "value": "max-age=3600"
+                    }
+                ]
+            },
+            {
+                "source": "/(.*).(jpe?g|gif|png|ico|webp|svg|xml|webm|mp4|mpe?g|ttf|otf|woff2?)",
+                "headers": [
+                    {
+                        "key": "Cache-Control",
+                        "value": "public, max-age=31536000, immutable"
+                    }
+                ]
+            },
+            {
+                "source": "/(.*).(css|js|pdf)",
+                "headers": [
+                    {
+                        "key": "Cache-Control",
+                        "value": "public, max-age=2628288, immutable"
+                    }
+                ]
+            }
         ]
-      },
-      {
-        "source": "/api/examples(.*)",
-        "headers": [
-          {
-            "key": "cache-control",
-            "value": "public, max-age=60, s-maxage=86400, stale-while-revalidate=86400, stale-if-error=86400"
-          }
-        ]
-      }
-    ]
-  }
+    }
